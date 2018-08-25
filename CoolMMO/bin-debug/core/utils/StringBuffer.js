@@ -34,4 +34,3 @@ var StringBuffer = (function () {
     return StringBuffer;
 }());
 __reflect(StringBuffer.prototype, "StringBuffer");
-//# sourceMappingURL=StringBuffer.js.map

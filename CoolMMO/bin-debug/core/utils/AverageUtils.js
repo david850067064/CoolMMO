@@ -48,4 +48,3 @@ var AverageUtils = (function () {
     return AverageUtils;
 }());
 __reflect(AverageUtils.prototype, "AverageUtils");
-//# sourceMappingURL=AverageUtils.js.map

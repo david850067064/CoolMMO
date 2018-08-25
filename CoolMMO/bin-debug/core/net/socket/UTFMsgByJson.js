@@ -36,4 +36,3 @@ var UTFMsgByJson = (function (_super) {
     return UTFMsgByJson;
 }(UTFMsg));
 __reflect(UTFMsgByJson.prototype, "UTFMsgByJson");
-//# sourceMappingURL=UTFMsgByJson.js.map

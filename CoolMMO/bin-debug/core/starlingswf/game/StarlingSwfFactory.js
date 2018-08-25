@@ -117,4 +117,3 @@ var StarlingSwfFactory = (function (_super) {
     return StarlingSwfFactory;
 }(BaseClass));
 __reflect(StarlingSwfFactory.prototype, "StarlingSwfFactory");
-//# sourceMappingURL=StarlingSwfFactory.js.map

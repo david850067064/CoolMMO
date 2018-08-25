@@ -38,40 +38,93 @@ class Main extends egret.DisplayObjectContainer {
 
     private onAddToStage(event: egret.Event) {
 
-        egret.lifecycle.addLifecycleListener((context) => {
-            // custom lifecycle plugin
+        this.removeEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
+        //注入自定义的素材解析器
+        egret.registerImplementation("eui.IAssetAdapter",new AssetAdapter());
+        egret.registerImplementation("dui.IThemeAdapter",new ThemeAdapter());
 
-            context.onUpdate = () => {
+        //适配方式(全屏适配)
+        App.StageUtils.startFullscreenAdaptation(640, 1136, this.onResize);
 
-            }
-        })
+         //初始化
+        this.initLifecycle();
+        this.initScene();
 
-        egret.lifecycle.onPause = () => {
+        //加载资源配置文件
+        this.loadResConfig();
+
+
+    }
+
+    private onResize(): void {
+        App.ControllerManager.applyFunc(ControllerConst.RpgGame, RpgGameConst.GameResize);
+    }
+
+     /**
+     * 初始化所有场景
+     */
+    private initScene(): void {
+        App.SceneManager.register(SceneConsts.LOADING, new LoadingScene());
+        App.SceneManager.register(SceneConsts.UI, new UIScene());
+        App.SceneManager.register(SceneConsts.Game, new GameScene());
+        App.SceneManager.register(SceneConsts.RpgGame, new RpgGameScene());    
+    
+    }
+
+    private loadResConfig(): void {
+        //初始化Resource资源加载库
+        App.ResourceUtils.addConfig("resource/default.res.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_core.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_ui.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_battle.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_rpg.json", "resource/");
+        App.ResourceUtils.loadConfig(this.onConfigComplete, this);
+    }
+
+     /**
+     * 配置文件加载完成,开始预加载preload资源组。
+     */
+    private onConfigComplete(): void {
+        //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
+        var theme = new eui.Theme("resource/default.thm.json", this.stage);
+        theme.addEventListener(eui.UIEvent.COMPLETE, this.onThemeLoadComplete, this);
+    }
+
+     /**
+     * 主题文件加载完成
+     */
+    private onThemeLoadComplete(): void {
+        //模块初始化
+        this.initModule();
+
+        //设置加载进度界面
+        App.SceneManager.runScene(SceneConsts.LOADING);
+
+        // //开启游戏
+        // new RpgTest();
+        // new ProtoBufTest();
+      
+    }
+
+
+    /**
+     * 初始化所有模块
+     */
+    private initModule(): void {
+        App.ControllerManager.register(ControllerConst.Loading, new LoadingController());
+        App.ControllerManager.register(ControllerConst.Login,new LoginController());
+    }
+
+    private initLifecycle():void{
+        egret.lifecycle.addLifecycleListener((context)=>{})
+        egret.lifecycle.onPause=()=>{
             egret.ticker.pause();
         }
-
-        egret.lifecycle.onResume = () => {
+        egret.lifecycle.onResume=()=>{
             egret.ticker.resume();
         }
 
-        this.runGame().catch(e => {
-            console.log(e);
-        })
-
-
-
-    }
-
-    private async runGame() {
-        await this.loadResource()
-        this.createGameScene();
-        const result = await RES.getResAsync("description_json")
-        this.startAnimation(result);
-        await platform.login();
-        const userInfo = await platform.getUserInfo();
-        console.log(userInfo);
-
-    }
+    }    
 
     private async loadResource() {
         try {
@@ -93,6 +146,8 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene() {
+
+        
         let sky = this.createBitmapByName("bg_jpg");
         this.addChild(sky);
         let stageW = this.stage.stageWidth;
@@ -142,6 +197,20 @@ class Main extends egret.DisplayObjectContainer {
         textfield.x = 172;
         textfield.y = 135;
         this.textfield = textfield;
+
+       var tx:egret.TextField = new egret.TextField;
+        tx.x = 20;
+        tx.y = 80;
+        tx.fontFamily = "微软雅黑";
+        tx.textColor = 0;
+        tx.text = "舞台宽高：" + this.stage.stageWidth + "," + this.stage.stageHeight
+            +"n缩放模型：" + this.stage.scaleMode;
+        this.addChild( tx );
+
+      
+
+    
+
 
 
     }

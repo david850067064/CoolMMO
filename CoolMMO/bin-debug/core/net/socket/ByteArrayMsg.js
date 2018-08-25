@@ -56,4 +56,3 @@ var ByteArrayMsg = (function () {
     return ByteArrayMsg;
 }());
 __reflect(ByteArrayMsg.prototype, "ByteArrayMsg", ["BaseMsg"]);
-//# sourceMappingURL=ByteArrayMsg.js.map

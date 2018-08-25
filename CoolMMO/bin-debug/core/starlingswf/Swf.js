@@ -180,4 +180,3 @@ var starlingswf;
     starlingswf.Swf = Swf;
     __reflect(Swf.prototype, "starlingswf.Swf");
 })(starlingswf || (starlingswf = {}));
-//# sourceMappingURL=Swf.js.map

@@ -153,4 +153,3 @@ var GuideView = (function (_super) {
     return GuideView;
 }(egret.Sprite));
 __reflect(GuideView.prototype, "GuideView");
-//# sourceMappingURL=GuideView.js.map

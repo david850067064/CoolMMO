@@ -60,4 +60,3 @@ var EffectUtils = (function (_super) {
     return EffectUtils;
 }(BaseClass));
 __reflect(EffectUtils.prototype, "EffectUtils");
-//# sourceMappingURL=EffectUtils.js.map

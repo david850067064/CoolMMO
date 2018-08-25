@@ -79,45 +79,74 @@ var Main = (function (_super) {
         return _this;
     }
     Main.prototype.onAddToStage = function (event) {
-        egret.lifecycle.addLifecycleListener(function (context) {
-            // custom lifecycle plugin
-            context.onUpdate = function () {
-            };
-        });
+        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        //注入自定义的素材解析器
+        egret.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
+        egret.registerImplementation("dui.IThemeAdapter", new ThemeAdapter());
+        //适配方式(全屏适配)
+        App.StageUtils.startFullscreenAdaptation(640, 1136, this.onResize);
+        //初始化
+        this.initLifecycle();
+        this.initScene();
+        //加载资源配置文件
+        this.loadResConfig();
+    };
+    Main.prototype.onResize = function () {
+        App.ControllerManager.applyFunc(ControllerConst.RpgGame, RpgGameConst.GameResize);
+    };
+    /**
+    * 初始化所有场景
+    */
+    Main.prototype.initScene = function () {
+        App.SceneManager.register(SceneConsts.LOADING, new LoadingScene());
+        App.SceneManager.register(SceneConsts.UI, new UIScene());
+        App.SceneManager.register(SceneConsts.Game, new GameScene());
+        App.SceneManager.register(SceneConsts.RpgGame, new RpgGameScene());
+    };
+    Main.prototype.loadResConfig = function () {
+        //初始化Resource资源加载库
+        App.ResourceUtils.addConfig("resource/default.res.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_core.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_ui.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_battle.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_rpg.json", "resource/");
+        App.ResourceUtils.loadConfig(this.onConfigComplete, this);
+    };
+    /**
+    * 配置文件加载完成,开始预加载preload资源组。
+    */
+    Main.prototype.onConfigComplete = function () {
+        //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
+        var theme = new eui.Theme("resource/default.thm.json", this.stage);
+        theme.addEventListener(eui.UIEvent.COMPLETE, this.onThemeLoadComplete, this);
+    };
+    /**
+    * 主题文件加载完成
+    */
+    Main.prototype.onThemeLoadComplete = function () {
+        //模块初始化
+        this.initModule();
+        //设置加载进度界面
+        App.SceneManager.runScene(SceneConsts.LOADING);
+        // //开启游戏
+        // new RpgTest();
+        // new ProtoBufTest();
+    };
+    /**
+     * 初始化所有模块
+     */
+    Main.prototype.initModule = function () {
+        App.ControllerManager.register(ControllerConst.Loading, new LoadingController());
+        App.ControllerManager.register(ControllerConst.Login, new LoginController());
+    };
+    Main.prototype.initLifecycle = function () {
+        egret.lifecycle.addLifecycleListener(function (context) { });
         egret.lifecycle.onPause = function () {
             egret.ticker.pause();
         };
         egret.lifecycle.onResume = function () {
             egret.ticker.resume();
         };
-        this.runGame().catch(function (e) {
-            console.log(e);
-        });
-    };
-    Main.prototype.runGame = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var result, userInfo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.loadResource()];
-                    case 1:
-                        _a.sent();
-                        this.createGameScene();
-                        return [4 /*yield*/, RES.getResAsync("description_json")];
-                    case 2:
-                        result = _a.sent();
-                        this.startAnimation(result);
-                        return [4 /*yield*/, platform.login()];
-                    case 3:
-                        _a.sent();
-                        return [4 /*yield*/, platform.getUserInfo()];
-                    case 4:
-                        userInfo = _a.sent();
-                        console.log(userInfo);
-                        return [2 /*return*/];
-                }
-            });
-        });
     };
     Main.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -193,6 +222,14 @@ var Main = (function (_super) {
         textfield.x = 172;
         textfield.y = 135;
         this.textfield = textfield;
+        var tx = new egret.TextField;
+        tx.x = 20;
+        tx.y = 80;
+        tx.fontFamily = "微软雅黑";
+        tx.textColor = 0;
+        tx.text = "舞台宽高：" + this.stage.stageWidth + "," + this.stage.stageHeight
+            + "n缩放模型：" + this.stage.scaleMode;
+        this.addChild(tx);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -234,4 +271,3 @@ var Main = (function (_super) {
     return Main;
 }(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
-//# sourceMappingURL=Main.js.map

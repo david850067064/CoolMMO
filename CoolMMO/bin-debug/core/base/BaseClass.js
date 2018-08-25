@@ -25,4 +25,3 @@ var BaseClass = (function () {
     return BaseClass;
 }());
 __reflect(BaseClass.prototype, "BaseClass");
-//# sourceMappingURL=BaseClass.js.map

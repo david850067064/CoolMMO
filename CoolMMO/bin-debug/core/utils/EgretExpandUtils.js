@@ -28,4 +28,3 @@ var EgretExpandUtils = (function (_super) {
     return EgretExpandUtils;
 }(BaseClass));
 __reflect(EgretExpandUtils.prototype, "EgretExpandUtils");
-//# sourceMappingURL=EgretExpandUtils.js.map
