@@ -175,3 +175,4 @@ var Socket = (function (_super) {
     return Socket;
 }(BaseClass));
 __reflect(Socket.prototype, "Socket");
+//# sourceMappingURL=Socket.js.map

@@ -103,3 +103,4 @@ var ByteArrayMsgByProtobuf = (function (_super) {
     return ByteArrayMsgByProtobuf;
 }(ByteArrayMsg));
 __reflect(ByteArrayMsgByProtobuf.prototype, "ByteArrayMsgByProtobuf");
+//# sourceMappingURL=ByteArrayMsgByProtobuf.js.map

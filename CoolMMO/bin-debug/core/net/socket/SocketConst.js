@@ -44,3 +44,4 @@ var SocketConst = (function () {
     return SocketConst;
 }());
 __reflect(SocketConst.prototype, "SocketConst");
+//# sourceMappingURL=SocketConst.js.map

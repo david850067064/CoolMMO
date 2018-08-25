@@ -82,3 +82,4 @@ var TouchEventHook = (function () {
     return TouchEventHook;
 }());
 __reflect(TouchEventHook.prototype, "TouchEventHook");
+//# sourceMappingURL=TouchEventHook.js.map

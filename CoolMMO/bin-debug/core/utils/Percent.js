@@ -60,3 +60,4 @@ var Percent = (function () {
     return Percent;
 }());
 __reflect(Percent.prototype, "Percent");
+//# sourceMappingURL=Percent.js.map

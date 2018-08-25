@@ -57,3 +57,4 @@ var EasyLoading = (function (_super) {
     return EasyLoading;
 }(BaseClass));
 __reflect(EasyLoading.prototype, "EasyLoading");
+//# sourceMappingURL=EasyLoading.js.map

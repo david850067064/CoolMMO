@@ -170,3 +170,4 @@ var DragonBonesFactory = (function (_super) {
     return DragonBonesFactory;
 }(BaseClass));
 __reflect(DragonBonesFactory.prototype, "DragonBonesFactory");
+//# sourceMappingURL=DragonBonesFactory.js.map

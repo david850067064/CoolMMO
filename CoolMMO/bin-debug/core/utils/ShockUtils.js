@@ -100,3 +100,4 @@ var ShockUtils = (function (_super) {
     return ShockUtils;
 }(BaseClass));
 __reflect(ShockUtils.prototype, "ShockUtils");
+//# sourceMappingURL=ShockUtils.js.map

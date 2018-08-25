@@ -122,3 +122,4 @@ var BitmapNumber = (function (_super) {
     return BitmapNumber;
 }(BaseClass));
 __reflect(BitmapNumber.prototype, "BitmapNumber");
+//# sourceMappingURL=BitmapNumber.js.map

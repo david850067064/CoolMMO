@@ -29,3 +29,4 @@ var FrameDelay = (function () {
     return FrameDelay;
 }());
 __reflect(FrameDelay.prototype, "FrameDelay");
+//# sourceMappingURL=FrameDelay.js.map
